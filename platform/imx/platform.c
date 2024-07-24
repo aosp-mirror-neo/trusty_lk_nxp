@@ -94,9 +94,10 @@ static void generic_arm64_map_regs(const char* name,
     status_t ret;
     void* vaddrp = (void*)vaddr;
 
-    ret = vmm_alloc_physical(vmm_get_kernel_aspace(), name, size, &vaddrp, 0,
-                             paddr, VMM_FLAG_VALLOC_SPECIFIC,
-                             ARCH_MMU_FLAG_UNCACHED_DEVICE);
+    ret = vmm_alloc_physical(
+            vmm_get_kernel_aspace(), name, size, &vaddrp, 0, paddr,
+            VMM_FLAG_VALLOC_SPECIFIC,
+            ARCH_MMU_FLAG_UNCACHED_DEVICE | ARCH_MMU_FLAG_PERM_NO_EXECUTE);
     if (ret) {
         dprintf(CRITICAL, "%s: failed %d name=%s\n", __func__, ret, name);
     }
